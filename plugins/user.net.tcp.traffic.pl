@@ -43,6 +43,21 @@ sub println {
 
 
 
+###############################################################################
+###############################################################################
+###############################################################################
+###############################################################################
+###############################################################################
+###############################################################################
+package current_direction;
+
+our $direction = '';
+
+
+
+
+
+
 
 
 
@@ -58,10 +73,30 @@ package main;
 
 sub _analyze_line {
 
-	my ($line, $required_protocol, $required_port) = @_;
+	my ($line, $required_direction, $required_protocol, $required_port) = @_;
 
 
 
+	#
+	#
+	#
+	if($line =~ m/\AChain/msi) {
+		my ($word1, $word2) = split(' ', $line);
+		if(uc($word1) eq 'CHAIN') {
+			if(0 < length($word2)) {
+				$current_direction::direction = $word2;
+				return;
+			}
+		}
+	}
+
+	if(!($required_direction eq $current_direction::direction)) {
+		return;
+	}
+
+	#
+	#
+	#
 	my ($packets, $length, $target, $protocol) = split(' ', $line);
 	if(!($target eq 'ACCEPT')) {
 		return;
@@ -75,22 +110,32 @@ sub _analyze_line {
 	if($required_port != $port) {
 		return;
 	}
+
 	out::println($length);
 }
 
 sub _analyze {
 
-	my ($protocol, $port) = @_;
+	my ($protocol, $direction, $port) = @_;
 
 
+
+	if(!length($protocol)) {
+		$protocol = 'tcp';
+	}
+
+	if(!length($direction)) {
+		$direction = 'INPUT';
+	}
 
 	my $stream = undef;
 	my $command_text = '/sbin/iptables --list -nvx |';
 	if(!open($stream, $command_text)) {
 		return;
 	}
+
 	while(my $line = <$stream>) {
-		_analyze_line($line, $protocol, $port);
+		_analyze_line($line, $direction, $protocol, $port);
 	}
 	close($stream);
 }
@@ -99,6 +144,7 @@ sub _usage {
 
 	out::println('usage:');
 	out::println('    --help: show this message.');
+	out::println('    --direction: INPUT/OUTPUT');
 	out::println('    --protocol: tcp/udp');
 	out::println('    --port: port');
 	out::println('');
@@ -108,6 +154,7 @@ sub _main {
 
 	my $action_help = 0;
 	my $protocol = '';
+	my $direction = '';
 	my $port = 0;
 
 
@@ -115,8 +162,8 @@ sub _main {
 	my $result = Getopt::Long::GetOptions(
 		'help!' => \$action_help,
 		'protocol=s' => \$protocol,
+		'direction=s' => \$direction,
 		'port=i' => \$port);
-
 	if(!$result) {
 		_usage();
 	}
@@ -124,7 +171,7 @@ sub _main {
 		_usage();
 	}
 	else {
-		_analyze($protocol, $port);
+		_analyze($protocol, $direction, $port);
 	}
 }
 

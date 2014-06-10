@@ -1,2 +1,2 @@
-このディレクトリには[Wiki](https://github.com/mar3/zabbix/wiki)があります。
+このディレクトリには [Wiki](https://github.com/mar3/zabbix/wiki) があります。
 

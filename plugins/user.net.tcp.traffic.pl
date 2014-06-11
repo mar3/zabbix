@@ -51,6 +51,8 @@ sub println {
 ###############################################################################
 package current_direction;
 
+# sub new {}
+
 our $direction = '';
 
 
@@ -78,7 +80,7 @@ sub _analyze_line {
 
 
 	#
-	#
+	# current chain
 	#
 	if($line =~ m/\AChain/msi) {
 		my ($word1, $word2) = split(' ', $line);
@@ -95,8 +97,9 @@ sub _analyze_line {
 	}
 
 	#
+	# detected requested chain
 	#
-	#
+
 	my ($packets, $length, $target, $protocol) = split(' ', $line);
 	if(!($target eq 'ACCEPT')) {
 		return;
@@ -104,7 +107,6 @@ sub _analyze_line {
 	if(!($protocol eq $required_protocol)) {
 		return;
 	}
-	# $line =~ m//ms;
 	$line =~ m/dpt\:([0-9]+)/ms;
 	my $port = $1;
 	if($required_port != $port) {

@@ -64,8 +64,6 @@ package reader;
 use constant KEY_PORT => '.port';
 use constant KEY_LINES => '.lines';
 
-# sub new {}
-
 sub new {
 
 	my ($name, $port) = @_;

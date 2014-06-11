@@ -22,3 +22,7 @@ to append line
 insert # to disable [requiretty].
 
     #Defaults requiretty
+
+zabbix-agent must be restarted.
+
+    # service zabbix-agent restart

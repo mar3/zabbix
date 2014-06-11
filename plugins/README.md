@@ -1,20 +1,18 @@
 zabbix plugins
 ===
 
-copy *.conf into /etc/zabbix/zabbix_agentd.d/  
+`cp *.conf /etc/zabbix/zabbix_agentd.d/`
 
-(mkdir -p /var/lib/zabbix/bin/)  
+`mkdir -p /var/lib/zabbix/bin/`
 
-(chown -R zabbix:zabbix /var/lib/zabbix)  
+`chown -R zabbix:zabbix /var/lib/zabbix`
 
-copy *.pl into /var/lib/zabbix/bin/
-
-
+`cp *.pl /var/lib/zabbix/bin/`
 
 visudo to add line below
 
 `zabbix ALL=(ALL) NOPASSWD: /var/lib/zabbix/bin/user.*`
 
-disable line.
+insert # to disable line.
 
-#Defaults requiretty
+`#Defaults requiretty`

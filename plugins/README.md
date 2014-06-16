@@ -8,8 +8,9 @@ save *.conf
 save *.pl
 
     # mkdir -p /var/lib/zabbix/bin/
-    # chown -R zabbix:zabbix /var/lib/zabbix
     # cp *.pl /var/lib/zabbix/bin/
+    # chown -R zabbix:zabbix /var/lib/zabbix
+    # chmod +x /var/lib/zabbix/bin/user.*.pl
 
 visudo
 

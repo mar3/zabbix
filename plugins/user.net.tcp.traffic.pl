@@ -79,6 +79,8 @@ sub _analyze_line {
 
 
 
+	$required_direction = uc($required_direction);
+
 	#
 	# current chain
 	#
@@ -101,15 +103,28 @@ sub _analyze_line {
 	#
 
 	my ($packets, $length, $target, $protocol) = split(' ', $line);
+
 	if(!($target eq 'ACCEPT')) {
 		return;
 	}
+
 	if(!($protocol eq $required_protocol)) {
 		return;
 	}
-	$line =~ m/dpt\:([0-9]+)/ms;
-	my $port = $1;
-	if($required_port != $port) {
+	
+	if($line =~ m/dpt\:([0-9]+)/ms) {
+		my $port = $1;
+		if($required_port != $port) {
+			return;
+		}
+	}
+	elsif($line =~ m/spt\:([0-9]+)/ms) {
+		my $port = $1;
+		if($required_port != $port) {
+			return;
+		}
+	}
+	else {
 		return;
 	}
 

@@ -12,13 +12,11 @@ save *.pl
     # chown -R zabbix:zabbix /var/lib/zabbix
     # chmod +x /var/lib/zabbix/bin/user.*.pl
 
-visudo
-
-    # visudo
-
-to append line
-
-    zabbix ALL=(ALL) NOPASSWD: /var/lib/zabbix/bin/user.*
+visudo to append line
+```
+# visudo
+zabbix ALL=(ALL) NOPASSWD: /var/lib/zabbix/bin/user.*
+```
 
 insert # to disable [requiretty].
 
